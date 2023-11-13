@@ -35,8 +35,6 @@ def sequential_chain(user_input):
     return overall_chain.run(user_input)
 
 
-st.header('Suggest Inhouse Engineer with Input Dataset')
-st.write('👈まず初めに、データセットをアップロードしてください！')
 # Load CSV file and process the data
 if uploaded_file:
     with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
