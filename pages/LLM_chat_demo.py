@@ -1,6 +1,7 @@
 import streamlit as st
 
-st.write("# Dev Support for search with chat")
+st.title("LLM Chat Demo 🤖" )
+st.write("""このデモはDev Supportにおけるチャット形式での情報検索を試して頂くものです。""")
 
 # Set openai api key
 user_api_key = st.text_input(
@@ -66,3 +67,5 @@ if st.session_state['generated']:
             #   st.write(st.session_state["past"][i])
             #with st.chat_message("assistant"):
             #    st.write(st.session_state["generated"][i])
+
+
