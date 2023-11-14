@@ -1,4 +1,11 @@
 import streamlit as st
+# import streamlit_chat import message
+import tempfile
+from langchain.document_loaders.csv_loader import CSVLoader
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+from langchain.chat_models import ChatOpenAI
+from langchain.chains import ConversationalRetrievalChain
 
 st.title("LLM Chat Demo 🤖" )
 st.write("""このデモはDev Supportにおけるチャット形式での情報検索を試して頂くものです。""")
@@ -61,11 +68,11 @@ if st.button('SEARCH'):
 if st.session_state['generated']:
     with response_container:
         for i in range(len(st.session_state['generated'])):
-            message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="big-smile")
-            message(st.session_state["generated"][i], key=str(i), avatar_style="thumbs")
-            #with st.chat_message("user"):
-            #   st.write(st.session_state["past"][i])
-            #with st.chat_message("assistant"):
-            #    st.write(st.session_state["generated"][i])
+            #message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="big-smile")
+            #message(st.session_state["generated"][i], key=str(i), avatar_style="thumbs")
+            with st.chat_message("user"):
+               st.write(st.session_state["past"][i])
+            with st.chat_message("assistant"):
+                st.write(st.session_state["generated"][i])
 
 
