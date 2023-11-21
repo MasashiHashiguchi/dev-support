@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import tempfile
 from langchain.document_loaders.csv_loader import CSVLoader
@@ -9,6 +10,9 @@ from langchain.chains import LLMChain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma
 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 st.title("LLM Recommendation Demo 🤖" )
 st.write("""このデモはDev Supportにおけるチャット形式での情報検索を試して頂くものです。""")
@@ -19,6 +23,8 @@ user_api_key = st.text_input(
     placeholder="OpenAIのAPIキーをペーストしてください",
     type="password"
 )
+
+os.environ['OPENAI_API_KEY'] = user_api_key
 
 #upload CSV
 uploaded_file = st.file_uploader("upload", type="csv")
