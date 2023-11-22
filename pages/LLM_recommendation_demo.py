@@ -69,10 +69,20 @@ if uploaded_file:
 
     with st.form(key='my_form', clear_on_submit=True):
 
-        user_input = st.text_input("Query:", placeholder="Write a project title or summary here", key='input')
-        submit_button = st.form_submit_button(label='Send')
+        "### Describe your project"
 
-        if submit_button and user_input:
+        name = st.text_input('プロジェクト名の入力:')
+        overview = st.text_area('プロジェクト概要の入力')
+        complete_by = st.date_input('プロジェクト完了の日付を選択')
+        goals = st.text_area('プロジェクトのゴールを入力')
+        roles = st.multiselect('必要な役職を選択', skills_retrieve(EMP_PATH))
+        desired_outcomes = st.text_area('理想的なプロジェクトの結果を入力', placeholder="""The successful completion of this project will result in a cutting-edge recommendation engine integrated into the online streaming platform. The engine will deliver accurate and personalized content suggestions to users, ultimately enhancing their viewing experience, increasing engagement, and contributing to the platform's business success.
+        """)
+        match_button = st.form_submit_button('Match employees to this project!')
+
+
+
+        if match_button and name and overview and complete_by and goals and roles and desired_outcomes:
             response = sequential_chain(user_input)
             output = database.similarity_search(response)
             st.write("Here's necessary skills suggested from the project based on your input👇")
