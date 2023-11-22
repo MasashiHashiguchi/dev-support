@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 import tempfile
+import pandas as pd
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
