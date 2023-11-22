@@ -1,7 +1,6 @@
 import os
 import streamlit as st
 import tempfile
-from script import skills_retrieve
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
@@ -32,9 +31,7 @@ uploaded_file = st.file_uploader("upload", type="csv")
 
 # Make a simple sequential chain
 def sequential_chain(user_input):
-
-    llm = OpenAI(model = "text-davinci-003")
-
+    llm = OpenAI(model="text-davinci-003")
     prompt_1 = PromptTemplate(
         input_variables=["project"],
         template="Question: What is necessary skills for {project} ? \nAnswer :"
@@ -72,18 +69,12 @@ if uploaded_file:
 
         "### Describe your project"
 
-        name = st.text_input('プロジェクト名の入力:')
-        overview = st.text_area('プロジェクト概要の入力')
-        complete_by = st.date_input('プロジェクト完了の日付を選択')
-        goals = st.text_area('プロジェクトのゴールを入力')
-        roles = st.multiselect('必要な役職を選択', skills_retrieve(EMP_PATH))
-        desired_outcomes = st.text_area('理想的なプロジェクトの結果を入力', placeholder="""The successful completion of this project will result in a cutting-edge recommendation engine integrated into the online streaming platform. The engine will deliver accurate and personalized content suggestions to users, ultimately enhancing their viewing experience, increasing engagement, and contributing to the platform's business success.
-        """)
-        match_button = st.form_submit_button('Match employees to this project!')
+        user_input = st.text_input('プロジェクト名の入力:')
+        match_button = st.button(label="Send")
 
 
 
-        if match_button and name and overview and complete_by and goals and roles and desired_outcomes:
+        if match_button and user_input:
             response = sequential_chain(user_input)
             output = database.similarity_search(response)
             st.write("Here's necessary skills suggested from the project based on your input👇")
