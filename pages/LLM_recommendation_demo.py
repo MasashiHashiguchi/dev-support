@@ -18,7 +18,6 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 st.title("LLM Recommendation Demo 🤖" )
-st.write("""このデモはDev Supportにおけるチャット形式での情報検索を試して頂くものです。""")
 
 # Set openai api key
 user_api_key = st.text_input(
