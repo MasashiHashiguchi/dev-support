@@ -34,7 +34,7 @@ uploaded_file = st.file_uploader("upload", type="csv")
 # Define templates
 template_1 = """
 You are a project manager and professional in team building. 
-Based on the [PROJECT CONTEXT] below summarize the project into a comprehensive description covering all the categories below:
+Based on the [PROJECT CONTEXT] below summarize the project into a comprehensive description in 200 words covering all the categories below:
 
 [PROJECT CONTEXT]
 [Project Name]
