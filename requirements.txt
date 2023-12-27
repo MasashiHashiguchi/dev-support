@@ -4,3 +4,4 @@ pydeck
 streamlit
 langchain
 openai
+chromadb
