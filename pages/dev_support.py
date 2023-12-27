@@ -10,7 +10,6 @@ import pandas as pd
 import datetime
 import openai
 import chromadb
-from chromadb.config import Settings
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
@@ -29,6 +28,8 @@ user_api_key = st.text_input(
 )
 
 os.environ['OPENAI_API_KEY'] = user_api_key
+
+client = chromadb.Client()
 
 #upload CSV
 uploaded_file = st.file_uploader("upload", type="csv")
