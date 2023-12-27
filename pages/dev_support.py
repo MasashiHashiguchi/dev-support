@@ -1,4 +1,9 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import os
+import sqlite3
 import streamlit as st
 import tempfile
 import pandas as pd
@@ -12,11 +17,6 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma
-
-
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 st.title("Dev Support 🛠" )
 
