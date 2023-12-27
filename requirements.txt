@@ -3,4 +3,3 @@ pandas
 pydeck
 streamlit
 langchain
-pysqlite3
