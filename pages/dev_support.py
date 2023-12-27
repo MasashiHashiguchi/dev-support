@@ -2,18 +2,12 @@ import os
 import streamlit as st
 import tempfile
 import pandas as pd
-from datetime import timedelta
-import datetime
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
-from langchain.chains import SimpleSequentialChain
-from langchain.chains import SequentialChain
-from langchain.memory import SimpleMemory
 from langchain.prompts.prompt import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 
 
