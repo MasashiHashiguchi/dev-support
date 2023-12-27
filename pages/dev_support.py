@@ -3,6 +3,7 @@ import streamlit as st
 import tempfile
 import pandas as pd
 import datetime
+import openai
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
@@ -167,7 +168,7 @@ if uploaded_file:
 
     def position_retrieve(path):
         employees = pd.read_csv(path)
-        positions = list(employees['Position']) # 改変したものだと"position"
+        positions = list(employees['Position']) 
         positions = set(','.join(positions).split(sep=","))
         return positions
 
@@ -193,15 +194,10 @@ if uploaded_file:
             st.write("Here's the skills based on your inputs👇")
             st.write(response)
             st.write("Here's an inhouse engineer recommendation based on the input dataset👇")
-            #df_vector_top = pd.DataFrame([doc.page_content for doc in output], columns=["content"])
-            #st.dataframe(df_vector_top)
+
 
             result = str(output[0].page_content)
             result_list = result.splitlines()
             for i in range(len(result_list)):
                 index = int(i)
                 st.write(result_list[index])
-            #st.write(result)
-            #retriever = database.as_retriever(search_kwargs={"k": 3})
-            #retrieved_docs = retriever.get_relevant_documents(str(output))
-            #st.write(retrieved_docs)
