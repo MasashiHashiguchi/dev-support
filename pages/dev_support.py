@@ -4,6 +4,7 @@ import tempfile
 import pandas as pd
 import datetime
 import openai
+import chromadb
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
