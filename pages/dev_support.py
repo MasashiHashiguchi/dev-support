@@ -29,8 +29,6 @@ user_api_key = st.text_input(
 
 os.environ['OPENAI_API_KEY'] = user_api_key
 
-client = chromadb.Client()
-
 #upload CSV
 uploaded_file = st.file_uploader("upload", type="csv")
 
@@ -152,30 +150,8 @@ def sequential_chain(name, overview, completed_by, goals, positions, desired_out
 
     return output_second
 
-
-# Load CSV file and process the data
-if uploaded_file:
-    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-        tmp_file.write(uploaded_file.getvalue())
-        tmp_file_path = tmp_file.name
-
-    raw_csv = CSVLoader(file_path=tmp_file_path, encoding="utf-8", csv_args={'delimiter': ','})
-
-    dataset = raw_csv.load()
-
-    text_splitter_dataset = CharacterTextSplitter(chunk_size= 1000, chunk_overlap= 50)
-
-    documents = text_splitter_dataset.split_documents(dataset)
-
-    database = Chroma.from_documents(documents, OpenAIEmbeddings())
-
-    def position_retrieve(path):
-        employees = pd.read_csv(path)
-        positions = list(employees['Position']) 
-        positions = set(','.join(positions).split(sep=","))
-        return positions
-
-    with st.form(key='my_form', clear_on_submit=True):
+# form
+with st.form(key='my_form', clear_on_submit=True):
 
         "### Describe your project"
 
@@ -191,16 +167,39 @@ if uploaded_file:
         duration = str(completed_by - datetime.date.today())
         positions = ', '.join(positions)
 
-        if match_button:
-            response = sequential_chain(name, overview, duration, goals, positions, desired_outcomes)
-            output = database.similarity_search(query=response)
-            st.write("Here's the skills based on your inputs👇")
-            st.write(response)
-            st.write("Here's an inhouse engineer recommendation based on the input dataset👇")
+# Load CSV file and process the data
+if uploaded_file:
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        tmp_file.write(uploaded_file.getvalue())
+        tmp_file_path = tmp_file.name
+
+    raw_csv = CSVLoader(file_path=tmp_file_path, encoding="utf-8", csv_args={'delimiter': ','})
+
+    dataset = raw_csv.load()
+
+    text_splitter_dataset = CharacterTextSplitter(chunk_size= 1000, chunk_overlap= 50)
+
+    documents = text_splitter_dataset.split_documents(dataset)
 
 
-            result = str(output[0].page_content)
-            result_list = result.splitlines()
-            for i in range(len(result_list)):
-                index = int(i)
-                st.write(result_list[index])
+    database = Chroma.from_documents(documents, OpenAIEmbeddings())
+
+    def position_retrieve(path):
+        employees = pd.read_csv(path)
+        positions = list(employees['Position']) 
+        positions = set(','.join(positions).split(sep=","))
+        return positions
+
+    if match_button:
+        response = sequential_chain(name, overview, duration, goals, positions, desired_outcomes)
+        output = database.similarity_search(query=response)
+        st.write("Here's the skills based on your inputs👇")
+        st.write(response)
+        st.write("Here's an inhouse engineer recommendation based on the input dataset👇")
+
+
+        result = str(output[0].page_content)
+        result_list = result.splitlines()
+        for i in range(len(result_list)):
+            index = int(i)
+            st.write(result_list[index])
