@@ -149,6 +149,17 @@ def sequential_chain(name, overview, completed_by, goals, positions, desired_out
     output_second = chain_2.run(output_first)
 
     return output_second
+# retrieve temporary file path
+with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        tmp_file.write(uploaded_file.getvalue())
+        tmp_file_path = tmp_file.name
+        
+# position retriever
+def position_retrieve(path):
+        employees = pd.read_csv(path)
+        positions = list(employees['Position']) 
+        positions = set(','.join(positions).split(sep=","))
+        return positions
 
 # form
 with st.form(key='my_form', clear_on_submit=True):
@@ -169,9 +180,6 @@ with st.form(key='my_form', clear_on_submit=True):
 
 # Load CSV file and process the data
 if uploaded_file:
-    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-        tmp_file.write(uploaded_file.getvalue())
-        tmp_file_path = tmp_file.name
 
     raw_csv = CSVLoader(file_path=tmp_file_path, encoding="utf-8", csv_args={'delimiter': ','})
 
@@ -183,12 +191,6 @@ if uploaded_file:
 
 
     database = Chroma.from_documents(documents, OpenAIEmbeddings())
-
-    def position_retrieve(path):
-        employees = pd.read_csv(path)
-        positions = list(employees['Position']) 
-        positions = set(','.join(positions).split(sep=","))
-        return positions
 
     if match_button:
         response = sequential_chain(name, overview, duration, goals, positions, desired_outcomes)
