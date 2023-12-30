@@ -164,7 +164,7 @@ os.environ['OPENAI_API_KEY'] = user_api_key
 uploaded_file = st.file_uploader("upload", type="csv")
 
 if uploaded_file is not None:
-    
+
     # retrieve temporary file path
     with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
         tmp_file.write(uploaded_file.getvalue())
@@ -184,7 +184,8 @@ if uploaded_file is not None:
     dataset = raw_csv.load()
     text_splitter_dataset = CharacterTextSplitter(chunk_size= 1000, chunk_overlap= 50)
     documents = text_splitter_dataset.split_documents(dataset)
-    database = Chroma.from_documents(documents, OpenAIEmbeddings())
+    embeddings = OpenAIEmbeddings()
+    database = Chroma.from_documents(documents, embeddings)
 
     if match_button:
         duration = str(completed_by - datetime.date.today())
