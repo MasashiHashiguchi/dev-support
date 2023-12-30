@@ -162,21 +162,23 @@ os.environ['OPENAI_API_KEY'] = user_api_key
 
 #upload CSV
 uploaded_file = st.file_uploader("upload", type="csv")
-# retrieve temporary file path
-with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-    tmp_file.write(uploaded_file.getvalue())
-    tmp_file_path = tmp_file.name
-
-with st.form('recommend employee'):
-    name = st.text_input('Input project name:')
-    overview = st.text_area('Input project overview')
-    completed_by = st.date_input('Choose project completion date')
-    goals = st.text_area('Input project goals')
-    positions = st.multiselect('Choose required positions', position_retrieve(tmp_file_path))
-    desired_outcomes = st.text_area('Input project desired outcomes')
-    match_button = st.form_submit_button(label="Submit")
 
 if uploaded_file is not None:
+    
+    # retrieve temporary file path
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        tmp_file.write(uploaded_file.getvalue())
+        tmp_file_path = tmp_file.name
+
+    with st.form('recommend employee'):
+        name = st.text_input('Input project name:')
+        overview = st.text_area('Input project overview')
+        completed_by = st.date_input('Choose project completion date')
+        goals = st.text_area('Input project goals')
+        positions = st.multiselect('Choose required positions', position_retrieve(tmp_file_path))
+        desired_outcomes = st.text_area('Input project desired outcomes')
+        match_button = st.form_submit_button(label="Submit")
+
     # load dataset and store in vectore database
     raw_csv = CSVLoader(file_path=tmp_file_path, encoding="utf-8", csv_args={'delimiter': ','})
     dataset = raw_csv.load()
