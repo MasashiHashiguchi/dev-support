@@ -14,7 +14,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores.chroma import Chroma
 import pandas as pd
 from langchain import LLMChain, PromptTemplate
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformerEmbeddings
 from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from langchain.llms import OpenAI
 
