@@ -4,6 +4,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import os
 #import sqlite3
+import tiktoken
 import streamlit as st
 import tempfile
 import datetime
