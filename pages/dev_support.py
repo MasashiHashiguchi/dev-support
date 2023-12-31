@@ -14,6 +14,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores.chroma import Chroma
 import pandas as pd
 from langchain import LLMChain, PromptTemplate
+from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from langchain.llms import OpenAI
 
 ### backend ###
@@ -184,8 +185,9 @@ if uploaded_file is not None:
     dataset = raw_csv.load()
     text_splitter_dataset = CharacterTextSplitter(chunk_size= 1000, chunk_overlap= 50)
     documents = text_splitter_dataset.split_documents(dataset)
-    embeddings = OpenAIEmbeddings()
-    database = Chroma.from_documents(documents, embeddings)
+    #embeddings = OpenAIEmbeddings()
+    embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+    database = Chroma.from_documents(documents, embedding_function)
 
     if match_button:
         duration = str(completed_by - datetime.date.today())
