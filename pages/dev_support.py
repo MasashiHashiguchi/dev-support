@@ -123,7 +123,7 @@ def sequential_chain(name, overview, completed_by, goals, positions, desired_out
     [/PROJECT SUMMARY AND SPECIFIC SEQUENTIAL STEPS]
     """
 
-    llm = OpenAI(model="text-davinci-003")
+    llm = OpenAI(model="gpt-3.5-turbo-instruct")
     prompt_1 = PromptTemplate(
         input_variables=["name_input", "overview_input", "duration_input", "goals_input", "position_input", "outcome_input"],
         template=template_1
